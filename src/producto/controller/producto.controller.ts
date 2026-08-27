@@ -21,6 +21,8 @@ export class ProductoController {
     return this.productsService.findAll();
   }
 
+
+
   @Get(':id')
   findOne(
     @Param('id', ParseIntPipe)
