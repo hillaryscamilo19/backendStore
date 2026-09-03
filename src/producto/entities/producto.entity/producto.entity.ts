@@ -1,77 +1,18 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
-
-export enum ProductoCategoria {
-  CELULARES = 'celulares',
-  AUDIO = 'audio',
-  ACCESORIOS = 'accesorios',
-  COMPUTACION = 'computacion',
-  OTROS = 'otros',
-}
-export class ProductoEntity {}
+import { Column } from 'typeorm/browser';
 
 @Entity('products')
+export class ProductoEntity {}
+
 export class Producto {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column({
-    length: 150,
+    name: 'string',
   })
-  name: string ;
-
   @Column({
-    type: 'text',
+    category: 'string',
   })
-  description: string;
-
-  @Column({
-    type: 'decimal',
-    precision: 10,
-    scale: 2,
-  })
+  @Column('decimal')
   price: number;
-
-  @Column({
-    nullable: true,
-  })
-  image: string;
-
-  @Column({
-    default: 0,
-  })
-  stock: number;
-
-  @Column({
-    length: 100,
-    nullable: true,
-  })
-  brand: string;
-
-  @Column({
-    type: 'enum',
-    enum: ProductoCategoria,
-    default: ProductoCategoria.OTROS,
-  })
-  category: ProductoCategoria | undefined;
-
-  @Column({
-    default: true,
-  })
-  active: boolean;
-
-  @CreateDateColumn({
-    name: 'created_at',
-  })
-  createdAt: Date;
-
-  @UpdateDateColumn({
-    name: 'updated_at',
-  })
-  updatedAt: Date;
 }

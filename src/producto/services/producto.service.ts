@@ -9,7 +9,7 @@ export class ProductoService {
   constructor(
     @InjectRepository(Producto)
     private readonly productsRepository: Repository<Producto>,
-  ) {}
+  ) { }
 
   async create(createProductDto: CreateProductoDto): Promise<Producto> {
     const product = this.productsRepository.create(createProductDto);
