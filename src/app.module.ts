@@ -7,6 +7,9 @@ import { AuthModule } from './auth/module/auth.module';
 import { ProductsModule } from './producto/products.module';
 import { ServiceService } from './services/service/service.service';
 import { AppointmentsService } from './services/appointments/appointments.service';
+import { ServicioModule } from './module/servicio/servicio.module';
+import { ServicioController } from './controller/servicio/servicio.controller';
+import { ServicioService } from './services/servicio/servicio.service';
 
 @Module({
   imports: [
@@ -19,7 +22,7 @@ import { AppointmentsService } from './services/appointments/appointments.servic
     // PostgreSQL + TypeORM
     TypeOrmModule.forRootAsync({
 
-      imports: [ConfigModule],
+      imports: [ConfigModule, ServicioModule],
 
       inject: [ConfigService],
 
@@ -50,7 +53,10 @@ import { AppointmentsService } from './services/appointments/appointments.servic
 
     ProductsModule,
 
+    ServicioModule,
+
   ],
-  providers: [ServiceService, AppointmentsService],
+  providers: [ServiceService, AppointmentsService, ServicioService],
+  controllers: [ServicioController],
 })
 export class AppModule {}

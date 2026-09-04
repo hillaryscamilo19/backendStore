@@ -5,6 +5,7 @@ import {
   Get,
   Param,
   ParseIntPipe,
+  ParseUUIDPipe,
   Post,
   UseGuards,
 } from '@nestjs/common';
@@ -14,38 +15,39 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt-auth/jwt-auth.guard';
 
 @Controller('producto')
 export class ProductoController {
-  constructor(private readonly productsService: ProductoService) {}
+  c
+  constructor(
+    private readonly ProductoService: ProductoService,
+  ) {}
 
   @Get()
   findAll() {
-    return this.productsService.findAll();
+    return this.ProductoService.findAll();
   }
-
-
 
   @Get(':id')
   findOne(
-    @Param('id', ParseIntPipe)
-    id: number,
+    @Param('id', ParseUUIDPipe)
+    id: string,
   ) {
-    return this.productsService.findOne(id);
+    return this.ProductoService.findOne(id);
   }
 
   @Post()
   @UseGuards(JwtAuthGuard)
   create(
     @Body()
-    createProductDto: CreateProductoDto,
+    CreateProductoDto: CreateProductoDto,
   ) {
-    return this.productsService.create(createProductDto);
+    return this.ProductoService.create(CreateProductoDto);
   }
 
   @Delete(':id')
   @UseGuards(JwtAuthGuard)
   remove(
-    @Param('id', ParseIntPipe)
-    id: number,
+    @Param('id', ParseUUIDPipe)
+    id: string,
   ) {
-    return this.productsService.remove(id);
+    return this.ProductoService.remove(id);
   }
 }

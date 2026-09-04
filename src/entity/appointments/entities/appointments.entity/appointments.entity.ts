@@ -1,7 +1,7 @@
-import { ProfesionalEntity } from 'src/professionals/entities/profesional.entity/profesional.entity';
-import { ServicesEntity } from 'src/services/entities/services.entity/services.entity';
+import { ProfessionalsEntity } from 'src/entity/professionals/professionals.entity/professionals.entity';
+import { ServicesEntity } from 'src/entity/services.entity/services.entity';
 import { User } from 'src/usuario/entities/usuario.entity/usuario.entity';
-import { Column, ManyToOne, PrimaryGeneratedColumn } from 'typeorm/browser';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm/browser';
 
 @Entity('appointments')
 export class AppointmentsEntity {
@@ -14,8 +14,8 @@ export class AppointmentsEntity {
   @ManyToOne(() => ServicesEntity)
   service: ServicesEntity;
 
-  @ManyToOne(() => ProfesionalEntity)
-  profesional: ProfesionalEntity;
+  @ManyToOne(() => ProfessionalsEntity)
+  profesional: ProfessionalsEntity;
 
   @Column('timestamp')
   apppointment_date: Date;
@@ -31,4 +31,6 @@ export class AppointmentsEntity {
 
   @Column({ default: 'CONFIRMED' })
   status: string;
+  startTime: string | number | Date;
+  endTime: string | number | Date;
 }

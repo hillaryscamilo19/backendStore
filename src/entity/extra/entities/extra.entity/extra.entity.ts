@@ -1,21 +1,67 @@
-import { ServicesEntity } from 'src/services/entities/services.entity/services.entity';
-import { Column, Entity } from 'typeorm';
-import { ManyToOne } from 'typeorm/browser';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
-@Entity('extras')
+export enum ExtraCategoria {
+  CABELLO = 'cabello',
+  UNAS = 'unas',
+}
+
+@Entity('servicio_extras')
 export class ExtraEntity {
+
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column({
+    type: 'varchar',
+    length: 150,
+  })
   name: string;
 
-  @Column('decimal')
-  price: number;
+  @Column({
+    type: 'text',
+    nullable: true,
+  })
+  description: string;
 
-  @Column('int')
-  duration_minutes: number;
+  @Column({
+    type: 'decimal',
+    precision: 10,
+    scale: 2,
+    default: 0,
+  })
+  extraPrice: number;
 
-  @ManyToOne(() => ServicesEntity)
-  service: ServicesEntity; // Relaciona qué extras pertenecen a qué servicio (ej. "Nail art" pertenece a "Uñas")
+  @Column({
+    type: 'integer',
+    default: 0,
+  })
+  extraDuration: number;
+
+  @Column({
+    type: 'enum',
+    enum: ExtraCategoria,
+  })
+  category: ExtraCategoria;
+
+  @Column({
+    type: 'boolean',
+    default: true,
+  })
+  active: boolean;
+
+  @CreateDateColumn({
+    name: 'created_at',
+  })
+  createdAt: Date;
+
+  @UpdateDateColumn({
+    name: 'updated_at',
+  })
+  updatedAt: Date;
 }

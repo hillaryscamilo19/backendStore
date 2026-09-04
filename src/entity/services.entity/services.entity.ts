@@ -1,14 +1,27 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { ExtraEntity } from '../extra/entities/extra.entity/extra.entity';
 
 
 @Entity('services')
 export class ServicesEntity {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id!: string;
 
   @Column()
-  name: string;
+  name!: string;
 
   @Column('decimal')
-  price: number;
+  price!: number;
+
+  @ManyToMany(() => ExtraEntity)
+  @JoinTable({
+    name: 'servicio_servicio_extras',
+  })
+  extras!: ExtraEntity[];
 }
