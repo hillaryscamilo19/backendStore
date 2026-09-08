@@ -1,7 +1,8 @@
 import { ProfessionalsEntity } from 'src/entity/professionals/professionals.entity/professionals.entity';
-import { ServicesEntity } from 'src/entity/services.entity/services.entity';
+import { ServicesEntity } from 'src/entity/service/services.entity';
 import { User } from 'src/usuario/entities/usuario.entity/usuario.entity';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm/browser';
+// 1. FIXED IMPORT HERE:
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'; 
 
 @Entity('appointments')
 export class AppointmentsEntity {
@@ -14,13 +15,13 @@ export class AppointmentsEntity {
   @ManyToOne(() => ServicesEntity)
   service: ServicesEntity;
 
-  @ManyToOne(() => ProfessionalsEntity)
-  profesional: ProfessionalsEntity;
+@ManyToOne("ProfessionalsEntity")
+profesional: ProfessionalsEntity;
 
   @Column('timestamp')
   apppointment_date: Date;
 
-  @Column({ default: 'false' })
+  @Column({ default: false }) // Boolean defaults shouldn't be in quotes
   whatsapp_reminder: boolean;
 
   @Column('decimal')
@@ -31,6 +32,12 @@ export class AppointmentsEntity {
 
   @Column({ default: 'CONFIRMED' })
   status: string;
-  startTime: string | number | Date;
-  endTime: string | number | Date;
+
+  // 2. ADDED @Column DECORATORS HERE
+  // Using timestamp so it automatically works with your Service logic (Dates)
+  @Column('timestamp')
+  startTime: Date;
+
+  @Column('timestamp')
+  endTime: Date;
 }

@@ -1,18 +1,22 @@
 import {
   Column,
-  CreateDateColumn,
   Entity,
+  JoinTable,
+  ManyToMany,
   PrimaryGeneratedColumn,
+  CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
-export enum ExtraCategoria {
+import { ExtraEntity } from '../extra/entities/extra.entity/extra.entity';
+
+export enum ServiceCategory {
   CABELLO = 'cabello',
   UNAS = 'unas',
 }
 
-@Entity('servicio_extras')
-export class ExtraEntity {
+@Entity('services')
+export class ServicesEntity {
 
   @PrimaryGeneratedColumn('uuid')
   id!: string;
@@ -33,27 +37,32 @@ export class ExtraEntity {
     type: 'decimal',
     precision: 10,
     scale: 2,
-    default: 0,
   })
-  extraPrice!: number;
+  price!: number;
 
   @Column({
     type: 'integer',
-    default: 0,
+    default: 60,
   })
-  extraDuration!: number;
+  durationMinutes!: number;
 
   @Column({
     type: 'enum',
-    enum: ExtraCategoria,
+    enum: ServiceCategory,
   })
-  category!: ExtraCategoria;
+  category!: ServiceCategory;
 
   @Column({
     type: 'boolean',
     default: true,
   })
   active!: boolean;
+
+  @ManyToMany(() => ExtraEntity)
+  @JoinTable({
+    name: 'service_service_extras',
+  })
+  extras!: ExtraEntity[];
 
   @CreateDateColumn({
     name: 'created_at',

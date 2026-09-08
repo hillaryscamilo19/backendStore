@@ -26,7 +26,9 @@ export class AppointmentsService {
     // 2. Buscar citas existentes de este profesional en este día
     const existingAppointments = await this.appointmentsRepo.find({
       where: {
-        professionalId,
+        profesional: {
+          id: professionalId,
+        },
         startTime: Between(startOfDay, endOfDay),
         status: 'CONFIRMED',
       },

@@ -5,15 +5,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsuarioModule } from './usuario/modules/usuario.module';
 import { AuthModule } from './auth/module/auth.module';
 import { ProductsModule } from './producto/products.module';
-import { ServiceService } from './services/service/service.service';
-import { AppointmentsService } from './services/appointments/appointments.service';
 import { ServicioModule } from './module/servicio/servicio.module';
-import { ServicioController } from './controller/servicio/servicio.controller';
-import { ServicioService } from './services/servicio/servicio.service';
+import { AppointmentsModule } from './module/appointments/appointments.module';
+import { ProfesionalModule } from './module/profesional/profesional.module';
+
 
 @Module({
   imports: [
-
     // Variables de entorno
     ConfigModule.forRoot({
       isGlobal: true,
@@ -21,42 +19,30 @@ import { ServicioService } from './services/servicio/servicio.service';
 
     // PostgreSQL + TypeORM
     TypeOrmModule.forRootAsync({
-
-      imports: [ConfigModule, ServicioModule],
-
+      imports: [ConfigModule], // Note: Removed ServicioModule from here, it shouldn't be here
       inject: [ConfigService],
-
       useFactory: (configService: ConfigService) => ({
         type: 'postgres',
-
         host: configService.get<string>('DB_HOST'),
-
         port: configService.get<number>('DB_PORT'),
-
         username: configService.get<string>('DB_USERNAME'),
-
         password: configService.get<string>('DB_PASSWORD'),
-
         database: configService.get<string>('DB_NAME'),
-
         autoLoadEntities: true,
-
         synchronize: true,
       }),
-
     }),
 
-    // Módulos
+    // Módulos (This is where the magic happens)
     UsuarioModule,
-
     AuthModule,
-
     ProductsModule,
-
     ServicioModule,
-
+    AppointmentsModule,
+    ProfesionalModule,
   ],
-  providers: [ServiceService, AppointmentsService, ServicioService],
-  controllers: [ServicioController],
+  // REMOVE all feature services and controllers from here!
+  providers: [], 
+  controllers: [],
 })
 export class AppModule {}
