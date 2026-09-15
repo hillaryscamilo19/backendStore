@@ -1,10 +1,10 @@
 import {
   Column,
+  CreateDateColumn,
   Entity,
   JoinTable,
   ManyToMany,
   PrimaryGeneratedColumn,
-  CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
@@ -17,7 +17,6 @@ export enum ServiceCategory {
 
 @Entity('services')
 export class ServicesEntity {
-
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 

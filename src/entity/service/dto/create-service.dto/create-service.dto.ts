@@ -1,4 +1,16 @@
-import { IsEnum, IsNumber, IsOptional, IsString, MaxLength, Min, MinLength } from 'class-validator';
+import {
+  ArrayUnique,
+  IsArray,
+  IsEnum,
+  IsNumber,
+  IsOptional,
+  IsString,
+  IsUUID,
+  MaxLength,
+  Min,
+  MinLength,
+} from 'class-validator';
+
 import { ServiceCategory } from '../../services.entity';
 
 export class CreateServiceDto {
@@ -21,4 +33,10 @@ export class CreateServiceDto {
 
   @IsEnum(ServiceCategory)
   category!: ServiceCategory;
+
+  @IsOptional()
+  @IsArray()
+  @ArrayUnique()
+  @IsUUID('4', { each: true })
+  extraIds?: string[];
 }

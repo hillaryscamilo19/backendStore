@@ -1,19 +1,45 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+
 import { InjectRepository } from '@nestjs/typeorm';
+import { In, Repository } from 'typeorm';
+
 import { UpdateServiceDto } from 'src/entity/service/dto/update-service.dto/update-service.dto';
+import { CreateServiceDto } from 'src/entity/service/dto/create-service.dto/create-service.dto';
+
 import { ServicesEntity } from 'src/entity/service/services.entity';
-import { CreateServiceDto } from 'src/entity/services/dto/create-service.dto/create-service.dto';
-import { Repository } from 'typeorm';
+import { ExtraEntity } from 'src/entity/extra/entities/extra.entity/extra.entity';
 
 @Injectable()
 export class ServiceService {
   constructor(
     @InjectRepository(ServicesEntity)
     private readonly serviceRepository: Repository<ServicesEntity>,
+
+    @InjectRepository(ExtraEntity)
+    private readonly extraRepository: Repository<ExtraEntity>,
   ) {}
 
-  async create(createServiceDto: CreateServiceDto): Promise<ServicesEntity> {
-    const service = this.serviceRepository.create(createServiceDto);
+  async create(
+    createServiceDto: CreateServiceDto,
+  ): Promise<ServicesEntity> {
+    const { extraIds, ...serviceData } = createServiceDto;
+
+    const service = this.serviceRepository.create(serviceData);
+
+    if (extraIds?.length) {
+      const extras = await this.extraRepository.findBy({ id: In(extraIds) });
+
+      if (extras.length !== extraIds.length) {
+        throw new NotFoundException(
+          'Uno o más extras no fueron encontrados',
+        );
+      }
+
+      service.extras = extras;
+    }
 
     return this.serviceRepository.save(service);
   }
@@ -56,7 +82,21 @@ export class ServiceService {
   ): Promise<ServicesEntity> {
     const service = await this.findOne(id);
 
-    Object.assign(service, updateServiceDto);
+    const { extraIds, ...serviceData } = updateServiceDto;
+
+    Object.assign(service, serviceData);
+
+    if (extraIds !== undefined) {
+      const extras = await this.extraRepository.findBy({ id: In(extraIds) });
+
+      if (extras.length !== extraIds.length) {
+        throw new NotFoundException(
+          'Uno o más extras no fueron encontrados',
+        );
+      }
+
+      service.extras = extras;
+    }
 
     return this.serviceRepository.save(service);
   }

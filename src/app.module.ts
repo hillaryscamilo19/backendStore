@@ -8,7 +8,7 @@ import { ProductsModule } from './producto/products.module';
 import { ServicioModule } from './module/servicio/servicio.module';
 import { AppointmentsModule } from './module/appointments/appointments.module';
 import { ProfesionalModule } from './module/profesional/profesional.module';
-import { ExtraController } from './controller/extra/extra.controller';
+import { ExtraModule } from './module/extra/extra.module';
 
 
 @Module({
@@ -41,9 +41,7 @@ import { ExtraController } from './controller/extra/extra.controller';
     ServicioModule,
     AppointmentsModule,
     ProfesionalModule,
+    ExtraModule,
   ],
-  // REMOVE all feature services and controllers from here!
-  providers: [], 
-  controllers: [ExtraController],
 })
 export class AppModule {}
