@@ -1,3 +1,4 @@
+import { Transform } from 'class-transformer';
 import {
   IsEnum,
   IsNumber,
@@ -19,14 +20,20 @@ export class CreateExtraDto {
   @IsString()
   description?: string;
 
+  @Transform(({ value }) => Number(value))
   @IsNumber()
   @Min(0)
   extraPrice!: number;
 
+  @Transform(({ value }) => Number(value))
   @IsNumber()
   @Min(0)
   extraDuration!: number;
 
   @IsEnum(ExtraCategoria)
   category!: ExtraCategoria;
+
+  @IsOptional()
+  @IsString()
+  image?: string;
 }

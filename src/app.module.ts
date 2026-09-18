@@ -9,6 +9,9 @@ import { ServicioModule } from './module/servicio/servicio.module';
 import { AppointmentsModule } from './module/appointments/appointments.module';
 import { ProfesionalModule } from './module/profesional/profesional.module';
 import { ExtraModule } from './module/extra/extra.module';
+import { ProfessionalsService } from './service/professionals/professionals.service';
+import { ProfessionalsService } from './services/professionals/professionals.service';
+import { ProfessionalsController } from './controller/professionals/professionals.controller';
 
 
 @Module({
@@ -43,5 +46,7 @@ import { ExtraModule } from './module/extra/extra.module';
     ProfesionalModule,
     ExtraModule,
   ],
+  providers: [ProfessionalsService],
+  controllers: [ProfessionalsController],
 })
 export class AppModule {}

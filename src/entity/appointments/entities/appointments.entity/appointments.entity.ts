@@ -33,8 +33,7 @@ profesional: ProfessionalsEntity;
   @Column({ default: 'CONFIRMED' })
   status: string;
 
-  // 2. ADDED @Column DECORATORS HERE
-  // Using timestamp so it automatically works with your Service logic (Dates)
+
   @Column('timestamp')
   startTime: Date;
 

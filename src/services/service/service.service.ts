@@ -1,7 +1,4 @@
-import {
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { InjectRepository } from '@nestjs/typeorm';
 import { In, Repository } from 'typeorm';
@@ -22,9 +19,7 @@ export class ServiceService {
     private readonly extraRepository: Repository<ExtraEntity>,
   ) {}
 
-  async create(
-    createServiceDto: CreateServiceDto,
-  ): Promise<ServicesEntity> {
+  async create(createServiceDto: CreateServiceDto): Promise<ServicesEntity> {
     const { extraIds, ...serviceData } = createServiceDto;
 
     const service = this.serviceRepository.create(serviceData);
@@ -33,9 +28,7 @@ export class ServiceService {
       const extras = await this.extraRepository.findBy({ id: In(extraIds) });
 
       if (extras.length !== extraIds.length) {
-        throw new NotFoundException(
-          'Uno o más extras no fueron encontrados',
-        );
+        throw new NotFoundException('Uno o más extras no fueron encontrados');
       }
 
       service.extras = extras;
@@ -90,9 +83,7 @@ export class ServiceService {
       const extras = await this.extraRepository.findBy({ id: In(extraIds) });
 
       if (extras.length !== extraIds.length) {
-        throw new NotFoundException(
-          'Uno o más extras no fueron encontrados',
-        );
+        throw new NotFoundException('Uno o más extras no fueron encontrados');
       }
 
       service.extras = extras;
