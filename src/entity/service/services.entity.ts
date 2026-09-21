@@ -9,6 +9,7 @@ import {
 } from 'typeorm';
 
 import { ExtraEntity } from '../extra/entities/extra.entity/extra.entity';
+import { ProfessionalsEntity } from '../professionals/professionals.entity/professionals.entity';
 
 export enum ServiceCategory {
   CABELLO = 'cabello',
@@ -62,6 +63,12 @@ export class ServicesEntity {
     name: 'service_service_extras',
   })
   extras!: ExtraEntity[];
+
+  @ManyToMany(
+    () => ProfessionalsEntity,
+    (professional) => professional.services,
+  )
+  professionals!: ProfessionalsEntity[];
 
   @CreateDateColumn({
     name: 'created_at',
