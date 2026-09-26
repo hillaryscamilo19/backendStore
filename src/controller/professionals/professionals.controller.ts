@@ -13,17 +13,19 @@ import { CreateProfessionalDto } from 'src/dto/professionals/create/create-profe
 import { UpdateProfessionalDto } from 'src/dto/professionals/update/update-professional.dto/update-professional.dto';
 import { ProfessionalsService } from 'src/services/professionals/professionals.service';
 
-
 @Controller('professionals')
 export class ProfessionalsController {
-  constructor(private readonly professionalsService: ProfessionalsService) {}
+  constructor(
+    private readonly professionalsService: ProfessionalsService,
+  ) {}
 
   @Post()
   create(
-    @Body()
-    createProfessionalDto: CreateProfessionalDto,
+    @Body() createProfessionalDto: CreateProfessionalDto,
   ) {
-    return this.professionalsService.create(createProfessionalDto);
+    return this.professionalsService.create(
+      createProfessionalDto,
+    );
   }
 
   @Get()
@@ -43,11 +45,12 @@ export class ProfessionalsController {
   update(
     @Param('id', ParseUUIDPipe)
     id: string,
-
-    @Body()
-    updateProfessionalDto: UpdateProfessionalDto,
+    @Body() updateProfessionalDto: UpdateProfessionalDto,
   ) {
-    return this.professionalsService.update(id, updateProfessionalDto);
+    return this.professionalsService.update(
+      id,
+      updateProfessionalDto,
+    );
   }
 
   @Delete(':id')
